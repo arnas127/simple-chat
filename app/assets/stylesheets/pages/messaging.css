@@ -1,0 +1,71 @@
+#users {
+  background-color: red;
+  -webkit-align-self: flex-start;
+   align-self: flex-start;
+
+  height: 100%;
+}
+
+#messages {
+  background-color: blue;
+  -webkit-align-self: flex-start;
+   align-self: flex-start;
+  flex: 1;
+  width: 100%;
+}
+
+#new-message {
+  background-color: green;
+  -webkit-align-self: flex-end;
+    align-self: flex-end;
+  height: 120px;
+  width: 100%;
+}
+
+.main {
+  flex-direction: column;
+}
+
+@media all and (max-width: 499px) {
+  #users {
+    flex: 1;
+  }
+
+  .main {
+    flex: 2;
+  }
+}
+
+@media all and (min-width: 500px) and (max-width: 799px) {
+  #users {
+    flex: 3;
+  }
+
+  .main {
+    flex: 7;
+  }
+}
+
+
+@media all and (min-width: 800px) and (max-width: 1199px) {
+  #users {
+    flex: 1;
+  }
+
+  .main {
+    flex: 2;
+  }
+}
+
+
+@media all and (min-width: 1200px) {
+  #users {
+    flex: 2;
+  }
+
+  .main {
+    flex: 9;
+  }
+}
+
+

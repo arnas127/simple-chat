@@ -1,0 +1,10 @@
+.flex-container {
+  display: -webkit-flex;
+  display: flex;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+}

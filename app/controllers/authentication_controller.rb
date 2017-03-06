@@ -6,6 +6,7 @@ class AuthenticationController < ApplicationController
     if @current_user
       handle_authenticated_user
     else
+      @dialects = User.dialects
       render
     end
   end
@@ -23,6 +24,6 @@ class AuthenticationController < ApplicationController
   end
 
   def handle_authenticated_user
-    redirect_to messaging_path
+    redirect_to messaging_index_path
   end
 end
