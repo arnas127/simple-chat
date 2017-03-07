@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   post :login, to: 'authentication#login'
 
   resources :messaging, only: [:index, :create]
+
+  mount ActionCable.server => '/stream'
 end

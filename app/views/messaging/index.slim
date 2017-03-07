@@ -3,6 +3,6 @@
     | users
   .main.flex-container
       #messages
-        | messages
+        = render @messages
       #new-message
-        | new-message
+        = text_field_tag(:message)
