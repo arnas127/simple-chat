@@ -1,15 +1,16 @@
 class MessagesChannel < ApplicationCable::Channel
   def subscribed
-    puts "#{current_user.username}---on---------------------------------------------------------"
+    ActiveUsersCounter.add(current_user.username)
     stream_from 'messages_channel'
   end
 
   def unsubscribed
-    puts "#{current_user.username}---off---------------------------------------------------------"
-    # Any cleanup needed when channel is unsubscribed
+    ActiveUsersCounter.remove(current_user.username)
   end
 
   def post(data)
-    ActionCable.server.broadcast 'messages_channel', message: ActiveUsersCounter.get.to_s
+    message = current_user.messages.create(original_message: data['message']).translated_message
+
+    ActionCable.server.broadcast 'messages_channel', message: message, users: ActiveUsersCounter.get
   end
 end
