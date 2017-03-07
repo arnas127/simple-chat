@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root to: 'authentication#index'
   post :login, to: 'authentication#login'
 
-  resources :messaging, only: [:index, :create]
+  resources :messages, only: [:index, :create]
 
   mount ActionCable.server => '/stream'
 end

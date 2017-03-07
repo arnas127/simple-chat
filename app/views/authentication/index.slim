@@ -3,6 +3,6 @@
     = form_tag(controller: 'authentication', action: 'login')
       = text_field_tag(:username)
       br
-      = select_tag(:city_id, options_for_select(@dialects.invert))
+      = select_tag(:dialect, options_for_select(@dialects.invert))
       br
       = submit_tag('Login')

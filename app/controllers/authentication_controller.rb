@@ -20,10 +20,10 @@ class AuthenticationController < ApplicationController
   private
 
   def prepare_params
-    @user_params = params.permit(:username, :dialects)
+    @user_params = params.permit(:username, :dialect)
   end
 
   def handle_authenticated_user
-    redirect_to messaging_index_path
+    redirect_to messages_path
   end
 end
