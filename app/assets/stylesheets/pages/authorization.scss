@@ -1,0 +1,23 @@
+.login {
+  width: 150px;
+  height: 230px;
+  margin: auto;
+  form {
+    > * {
+      display: block;
+      width: 100%;
+      -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+      -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+      box-sizing: border-box;         /* Opera/IE 8+ */
+    }
+
+    label {
+      font-weight: 600;
+      margin: 10px 0 5px;
+    }
+
+    input[type='submit'] {
+      margin-top: 10px;
+    }
+  }
+}

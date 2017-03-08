@@ -1,9 +1,20 @@
+h3 {
+  text-align:center;
+}
+
 #users {
   background-color: #C3C1C7;
   -webkit-align-self: flex-start;
-   align-self: flex-start;
-
+  align-self: flex-start;
   height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .user {
+    margin: 0 20px;
+    font-weight: 600;
+    word-break: break-all;
+  }
 }
 
 #messages {
@@ -18,24 +29,32 @@
     margin: 10px;
 
     .msg-icon {
-      display: inline-block;
-      width: 50px;
+      float: left;
+      text-align: center;
+      display: inline;
+      width: 40px;
       color: #6B6B6B;
+      margin-right: 5px;
     }
 
     .msg-wrapper {
-      display: inline-block;
+      display: inline;
       .msg-header {
         .msg-date {
-          margin-left: 10px;
-          display: inline-block;
+          margin: 0 10px;
+          display: inline;
           color: #C3C1C7;
           font-size: small;
         }
         .msg-author {
-          display: inline-block;
+          display: inline;
           word-break: break-all;
           font-weight: 600;
+        }
+        .msg-actions {
+          color: #FF8A8A;
+          cursor: pointer;
+          display: inline;
         }
       }
       .msg-text {
@@ -56,9 +75,9 @@
     resize: none;
     height: 115px;
     width: 100%;
-     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-     box-sizing: border-box;         /* Opera/IE 8+ */
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
   }
 }
 

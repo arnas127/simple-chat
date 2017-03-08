@@ -1,60 +1,87 @@
-App.messages = App.cable.subscriptions.create "MessagesChannel",
-  connected: ->
-    # Called when the subscription is ready for use on the server
-
-  disconnected: ->
-    # Called when the subscription has been terminated by the server
-
-  received: (data) ->
-    # Called when there's incoming data on the websocket for this channel
-    console.log(data['message'])
-    console.log(data['users'])
-
-    addMessage(data['message']) if data['message']
-
-  post: (message) ->
-    @perform 'post', message: message
-
-
-addMessage = (message) ->
-  console.log('adding')
-  console.log(message.time)
-  console.log(message)
+$(document).ready ->
   messageContainer = $('#messages')
+  currentUsername = $('body').data('username')
+  messageField = $('#message')
 
-  messageDate =  $('<div/>').addClass('msg-date')
-  messageDate = messageDate.text(message.time)
+  autoScroll = () ->
+    messageContainer.scrollTop(messageContainer.prop("scrollHeight"))
 
-  messageAuthor =  $('<div/>').addClass('msg-author')
-  messageAuthor = messageAuthor.text(message.user)
+  messageField.focus()
+  autoScroll()
 
-  messageHeader =  $('<div/>').addClass('msg-header')
-  messageHeader = messageHeader.append(messageAuthor)
-  messageHeader = messageHeader.append(messageDate)
+  addMessage = (message) ->
+    messageDate = $('<div/>').addClass('msg-date')
+    messageDate = messageDate.text(message.time)
 
-  messageText =  $('<div/>').addClass('msg-text')
-  messageText = messageText.text(message.text)
+    messageAuthor = $('<div/>').addClass('msg-author')
+    messageAuthor = messageAuthor.text(message.user)
 
-  messageWrapper =  $('<div/>').addClass('msg-wrapper')
-  messageWrapper = messageWrapper.append(messageHeader)
-  messageWrapper = messageWrapper.append(messageText)
+    messageHeader = $('<div/>').addClass('msg-header')
+    messageHeader = messageHeader.append(messageAuthor)
+    messageHeader = messageHeader.append(messageDate)
 
-  messageIconContainer =  $('<div/>').addClass('msg-icon')
-  messageIcon =  $('<i/>').addClass("fa fa-2x fa-#{message.icon}")
+    if currentUsername == message.user
+      removeIcon = $('<i/>').addClass('fa fa-times')
+      messageActions = $('<div/>').addClass('msg-actions')
+      messageActions = messageActions.append(removeIcon)
+      messageHeader = messageHeader.append(messageActions)
 
-  messageIconContainer = messageIconContainer.append(messageIcon)
+    messageText = $('<div/>').addClass('msg-text')
+    messageText = messageText.text(message.text)
 
-  messageRow =  $('<div/>').addClass('message')
-  messageRow = messageRow.append(messageIconContainer)
-  messageRow = messageRow.append(messageWrapper)
+    messageWrapper = $('<div/>').addClass('msg-wrapper')
+    messageWrapper = messageWrapper.append(messageHeader)
+    messageWrapper = messageWrapper.append(messageText)
 
-  messageContainer.append(messageRow)
-  messageContainer.scrollTop(messageContainer.prop("scrollHeight"))
+    messageIconContainer = $('<div/>').addClass('msg-icon')
+    messageIcon = $('<i/>').addClass("fa fa-2x fa-#{message.icon}")
 
-$(document).on 'keypress', '#message', (event) ->
-  if event.keyCode is 13 # return/enter = send
-    App.messages.post event.target.value
-    event.target.value = ''
-    event.preventDefault()
+    messageIconContainer = messageIconContainer.append(messageIcon)
+
+    messageRow = $('<div/>').addClass('message')
+    messageRow = messageRow.attr('data-id', message.id)
+    messageRow = messageRow.append(messageIconContainer)
+    messageRow = messageRow.append(messageWrapper)
+
+    messageContainer.append(messageRow)
+    autoScroll()
+
+  UpdateUsersList = (users) ->
+    usersContainer = $('#users .container')
+    usersContainer.empty()
+    for user in users
+      userRow = $('<div/>').addClass('user')
+      usersContainer.append(userRow.text(user))
+
+  removeMessage = (id) ->
+    messageContainer.find(".message[data-id='#{id}']").remove()
+
+  App.messages = App.cable.subscriptions.create "MessagesChannel",
+    connected: ->
+      # Called when the subscription is ready for use on the server
+
+    disconnected: ->
+      # Called when the subscription has been terminated by the server
+
+    received: (data) ->
+      # Called when there's incoming data on the websocket for this channel
+      addMessage(data['message']) if data['message']
+      UpdateUsersList(data['users']) if data['users']
+      removeMessage(data['remove']) if data['remove']
+
+    post: (message) ->
+      @perform 'post', message: message
+
+    remove: (id) ->
+      @perform 'remove', id: id
+
+  messageField.on 'keypress', (event) ->
+    if event.keyCode is 13 # return/enter = send
+      App.messages.post event.target.value
+      event.target.value = ''
+      event.preventDefault()
+
+  messageContainer.on 'mousedown', '.msg-actions > .fa-times', (event) ->
+    App.messages.remove $(event.target).closest('.message').data('id')
 
 

@@ -1,4 +1,4 @@
-.message
+.message data-id=message.id
   .msg-icon
     = dialect_icon(message.user.dialect_icon)
   .msg-wrapper
@@ -7,5 +7,8 @@
         = message.user.username
       .msg-date
         = message.created_at
+      .msg-actions
+        - if @current_user == message.user
+          = fa_icon 'times'
     .msg-text
       = message.translated_message

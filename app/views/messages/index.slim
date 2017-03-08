@@ -1,8 +1,11 @@
 .flex-container
   #users
-    | users
+    h3 Users
+    .container
+
   .main.flex-container
       #messages
+        h3 Messages
         = render @messages
       #new-message
-        = text_area_tag(:message, nil, placeholder: 'Type you message there and click "ENETR" to send it')
+        = text_area_tag(:message, nil, placeholder: 'Type you message here and click "ENETR" to send it')

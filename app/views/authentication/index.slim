@@ -1,8 +1,9 @@
 .flex-container
   .login
+    h3 Simple chat
     = form_tag(controller: 'authentication', action: 'login')
+      = label_tag(:username, 'Username:')
       = text_field_tag(:username)
-      br
+      = label_tag(:dialect, 'Dialect:')
       = select_tag(:dialect, options_for_select(@dialects.invert))
-      br
       = submit_tag('Login')
