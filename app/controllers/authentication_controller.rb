@@ -12,9 +12,13 @@ class AuthenticationController < ApplicationController
   end
 
   def login
-    current_user = User.where(username:  @user_params[:username]).first_or_create(@user_params)
-    session[:user_id] = current_user.id
-    handle_authenticated_user
+    begin
+      current_user = User.where(username:  @user_params[:username]).first_or_create(@user_params)
+      session[:user_id] = current_user.id
+      handle_authenticated_user
+    rescue
+      redirect_to root_path
+    end
   end
 
   private

@@ -1,6 +1,7 @@
 .flex-container
   .login
     h3 Simple chat
+
     = form_tag(controller: 'authentication', action: 'login')
       = label_tag(:username, 'Username:')
       = text_field_tag(:username)
