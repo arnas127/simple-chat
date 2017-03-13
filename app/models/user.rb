@@ -7,6 +7,9 @@ class User < ApplicationRecord
     binary: 'Binary'
   }
 
+  validates :username, presence: true
+  validates :dialect, presence: true, inclusion: { in: dialects.keys }
+
   def dialect_icon
     case dialect
     when 'valley'
@@ -15,8 +18,6 @@ class User < ApplicationRecord
       'calculator'
     when 'yoda'
       'rocket'
-    else
-      'asterisk'
     end
   end
 end

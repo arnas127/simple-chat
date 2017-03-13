@@ -9,7 +9,7 @@ class Message < ApplicationRecord
   private
 
   def translate_message
-    if original_message_changed?
+    if errors.blank? && original_message_changed?
       self.translated_message = Translator.translate(original_message, user.dialect)
     end
     true
